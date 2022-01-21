@@ -90,11 +90,14 @@ class Car {
   }
 
   drive(distance) {
-     // Decrease tank by amount driven with milesPerGallon taken into consideration
+    const driveableDistance = this.milesPerGallon * this.tank;
+    // Decrease tank by amount driven with milesPerGallon taken into consideration
     // prevent driving if tank < 0
-    const depletion = distance * (this.milesPerGallon / 1);
+    const depletion = distance / this.milesPerGallon;
 
-    if (depletion > this.tank) {
+    if (distance > driveableDistance) {
+      this.tank = 0;
+      this.odometer += driveableDistance;
       return `I ran out of fuel at ${this.odometer} miles`;
     } else {
       this.tank -= depletion;
@@ -188,7 +191,7 @@ class Student extends Lambdasian{
     return `${this.name} has submitted a PR for ${subject}`;
    }
 
-   sprintChallenge() {
+   sprintChallenge(subject) {
      return `${this.name} has begun sprint challenge on ${subject}`;
    }
 }
@@ -217,8 +220,20 @@ class Student extends Lambdasian{
         + `standUp` a method that takes in a slack channel and returns `{name} announces to {channel}, @channel standy times!`
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
-class ProjectManager {
-   
+class ProjectManager extends Instructor{
+   constructor(atr) {
+    super(atr);
+    this.gradClassName = atr.gradClassName;
+    this.favInstructor = atr.favInstructor;
+   }
+
+   standUp(channel) {
+    return `${this.name} announces to ${channel}, @channel standy times!`;
+   }
+
+   debugsCode(student, subject) {
+    return `${this.name} debugs ${student.name}'s code on ${subject}`;
+   }
 }
 /*
   STRETCH PROBLEM (no tests!)
